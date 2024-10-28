@@ -41,9 +41,9 @@ for erwtiseis in range(5):
 
 #Score's percentage
 if erwtiseis>0:
-    pososto_correct_count=(wrong_count/(erwtiseis+1))*100 
-    pososto_wrong_count=(correct_count/(erwtiseis+1))*100
-    print(f'Σωστές απαντημένες ερωτήσεις: {correct_count}/5 με ποσοστό επιτυχίας {pososto_correct_count}%. Λάθος απαντημένες ερωτήσεις: {wrong_count}/5 με ποσοστό αποτυχίας {pososto_wrong_count}%')
+    pososto_correct_count=(correct_count/(erwtiseis+1))*100 
+    pososto_wrong_count=(wrong_count/(erwtiseis+1))*100
+    print(f'Σωστές απαντημένες ερωτήσεις: {correct_count}/5 με ποσοστό επιτυχίας {pososto_correct_count:.1f}%. \nΛάθος απαντημένες ερωτήσεις: {wrong_count}/5 με ποσοστό αποτυχίας {pososto_wrong_count:.1f}%')
 else:
     print("Το quiz δεν πραγματοποιήθηκε")
     
