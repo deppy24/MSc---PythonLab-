@@ -29,7 +29,7 @@ for erwtiseis in range(5):
             raise Exception("Οι σωστές απαντήσεις περιλαμβάνουν μόνο λέξεις")
     except Exception as OnlyAlphas:
         print(f"Error: {OnlyAlphas}")
-       
+        continue
     #Strip the white chars and check if the answer is in dict values
     if answer.strip() in erwtiseis_Dict.values():
         #Show the result in the user
