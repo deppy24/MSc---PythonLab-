@@ -42,7 +42,7 @@ LexsikoOnomatwn = {
 Thlefwno=int(input("Πληκτρολογηστε το τηλεφωνο σας: "))
 TelikiHmero =(input("Εισάγεται την τελική ημερομηνία παράδοσης της εργασιας: "))'''
 
-
+#Ορισμός αρχείου και εισαγωγή πρώτων γραμμών
 with open('DiaxeiriErgasiwn.csv','w') as f:
     writer = csv.writer(f)
     writer.writerow(['WorkDate', 'WorkId', 'Name', 'Perigrafi'])
@@ -56,7 +56,8 @@ with open('DiaxeiriErgasiwn.csv','w') as f:
         data =[WorkDate,WorkId,Name,Perigrafi]
         writer.writerow(data)
 
-
+#Ορισμός συναρτήσεων : 1 Συνάρτηση - 1 Λειτουργία menu
+#Εισαγωγή νέας εργασίας
 def InsertNew():
     PerigrafiNew = input("Περιγράψτε την εργασία σας: ")
     NameNew= input("Πληκτρολογήστε το όνομα σας: ")
@@ -65,37 +66,35 @@ def InsertNew():
     with open('DiaxeiriErgasiwn.csv','a') as f:
         writer = csv.writer(f)
         data =[WorkDate,WorkId,NameNew,PerigrafiNew]
+        #Γράφει τα στοιχεία στο αρχείο
         writer.writerow(data)
         return print("Μία επιπλέον εργασία προστέθηκε επιτυχώς")
     time.sleep(2)
+
+#Μεταβολή εργασίας
 def ChangeErgasia(GiveID):
-    rows=[]
-    with open('data.csv','w') as f:
-        reader = csv.reader(f)
-        header = next(reader)  
-        rows.append(header)   
-
+    found = False
+    with open('DiaxeiriErgasiwn.csv','r') as f:
         
-        for row in reader:
-        # Check if the row corresponds to the record you want to change
-            if row[WorkId] == GiveID:  # Assuming we are looking for the name "Alice"
+        for line in f:
+            if str(GiveID) in line:
+                found = True 
                 PerigrafiNew = input("Περιγράψτε την εργασία σας: ")
-                NameNew= input("Πληκτρολογήστε το όνομα σας: ")
-                row[Perigrafi] = PerigrafiNew     # Update Alice's age to 31
-                row[Name] = NameNew
-            rows.append(row)
+                NameNew = input("Πληκτρολογήστε το όνομα σας: ")
+                newrows=[GiveID,PerigrafiNew,NameNew]
+                line = writer.writerows(newrows)
+                     
+    '''if found:
+        with open('DiaxeiriErgasiwn.csv', 'a') as f:
+        writer = csv.writer(f)        
+    else:
+        print("Αυτό το Id δεν αντιστοιχεί σε κάποια εργασία")   '''
 
-# Write the modified data back to the CSV file
-    with open('DiaxeiriErgasiwn.csv', mode='w') as f:
-        writer = csv.writer(f)
-        writer.writerow(header)
-        writer.writerows(rows)
-    
 def EraseErgasia(GiveID):
     with open('DiaxeiriErgasiwn.csv','r') as f:
         reader = csv.reader(f)
-        makelist=list(f)
-    rewritedata=[row for row in data if row[0]!=GiveID]
+        rows = [row for row in reader if row != GiveID]
+    
 def OpenErgasies():
     with open('DiaxeiriErgasiwn.csv','r') as f:
         all = f.read()
@@ -154,8 +153,8 @@ try:
         if x=="1":
             InsertNew()
         elif x=="2":
-            GiveID=input("Ποιο ειναι το αναγνωστικο της εργασίας που θέλεις να αλλαξεις;")
-            ChangeErgasia(GiveID)
+            GiveID2=input("Ποιο ειναι το αναγνωστικο της εργασίας που θέλεις να αλλαξεις;")
+            ChangeErgasia(GiveID2)
         elif x=="3":
             GiveID=input("Δωσε το id της εργασιας που θες να διαγραψεις: ")
             EraseErgasia(GiveID)
