@@ -136,7 +136,6 @@ def modify_task():
 
     description = input(f"Περιγραφή εργασίας ({task_to_modify[2]}): ") or task_to_modify[2]
     name = onoma_input()
-    #phone = input(f"Τηλέφωνο ({task_to_modify[4]}): ") or task_to_modify[4]
     phone = number_input() 
     deadline = input(f"Καταληκτική ημερομηνία ({task_to_modify[5]}): ") or task_to_modify[5]
 
@@ -222,7 +221,7 @@ def alphabetical_list():
 def person_with_most_tasks():
     from collections import Counter
     names = []
-    with open(FILENAME, 'r') as csvfile:
+    with open(FILENAME, 'a') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)  # Παράβλεψη header
         for row in reader:
