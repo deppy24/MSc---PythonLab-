@@ -235,7 +235,7 @@ def person_with_most_tasks():
         print("Δεν υπάρχουν εργασίες.")
 
 def main():
-    #init_csv()
+    
     
     while True:
         print("\n---Μενού---")
