@@ -131,13 +131,14 @@ lista_anapantitwn=[]
 lista_pragmatopoimenwn=[]
 lista_xronwn_klisewn=[]
 def generate_duration_phonecall():
-    min_duration=60
-    #Μεγιστος χρονος κλησης 3 ωρες
-    max_duration=18000
+    min_duration=1
+    #Μεγιστος χρονος κλησης 1 ωρα
+    max_duration=60
     duration=random.randint(min_duration,max_duration)
     #Μετατρεπουμε τον χρονο σε λεπτα και δευτερολεπτα
     minutes,seconds=divmod(duration,60)
-    return minutes,seconds
+    final=(f"{minutes}:{seconds} sec")
+    return final
 def klisi_epafis():
     with open("EpafesCsv.csv",'r',newline='',encoding='utf8') as epafes:
         reader=csv.reader(epafes)
@@ -185,9 +186,69 @@ def emfanisi():
     if i==0:print("Δεν βρέθηκε στο αρχείο κλήσεων")
 
 
-#def search_max_kliseis():
+def convert_time_to_seconds(time_str):
+    # Split the time string into minutes and seconds
+    minutes, seconds = time_str.split(':')
+    
+    # Convert to integers
+    minutes = int(minutes)
+    seconds = int(seconds)
+    
+    # Calculate total seconds
+    total_seconds = (minutes * 60) + seconds
+    return total_seconds
+def search_max_duration():
+    lista_katagrafwn=[]
+    sum=0
+    with open("ArxeioCsv.csv",'r',encoding='utf8') as arxeio:
+        
+        reader=csv.reader(arxeio)
+        
+        next(reader)
+        for row in reader:
+            if row[2] in uniquenumberset:
+                lista_katagrafwn.append((row[2],convert_time_to_seconds(row[4])))
+            lista_telephone=Counter(num for num, duration in lista_katagrafwn)  
+        #max_count=Counter(lista_telephone)
+    max_counter=max(lista_telephone.values(), default=0)
+    max_emfanisi=[num for num,freq in lista_telephone.items() if freq==max_counter]
+    print(lista_telephone,max_counter,max_emfanisi)
+    if max_counter == 0:
+        print("Καμία κλήση δεν βρέθηκε")
+        return
+    # Print the relevant details
+    total_duration = sum(int(duration) for num, duration in lista_katagrafwn if num in max_emfanisi)
 
-#def search_max_duration():
+    if len(max_emfanisi) == 1:
+        print(f"Μεγαλύτερη συχνότητα κλήσεων παρατηρήθηκε στην επαφή με αριθμό: {int(max_emfanisi[0])} με {max_counter} κλήσεις και συνολική διάρκεια: {total_duration}")
+    else:
+        print(f"Μεγαλύτερη συχνότητα κλήσεων παρατηρήθηκε στις επαφές με τους αριθμούς: {', '.join(map(str, max_emfanisi))} με {max_counter} κλήσεις και συνολική διάρκεια: {total_duration}")
+
+
+from collections import Counter
+def search_max_kliseis():
+    lista_katagrafwn=[]
+    with open("ArxeioCsv.csv",'r',encoding='utf8') as arxeio:
+        reader=csv.reader(arxeio)
+        for row in reader:
+            if row[2] in uniquenumberset:
+                lista_katagrafwn.append(row[2])
+    max_count=Counter(lista_katagrafwn)
+    max_counter=max(max_count.values(), default=0)
+    max_emfanisi=[num for num,freq in max_count.items() if freq==max_counter]
+    if max_counter == 0:
+        print("Καμία κλήση δεν βρέθηκε")
+    elif max_counter == 1:
+        if len(max_emfanisi) == 1:
+            print(f"Μεγαλύτερη συχνότητα κλήσεων παρατηρήθηκε στην επαφή με αριθμό: {int(max_emfanisi[0])} με {max_counter} κλήση")
+        else:
+            print(f"Μεγαλύτερη συχνότητα κλήσεων παρατηρήθηκε στις επαφές με τους αριθμούς: {int(max_emfanisi)} με {max_counter} κλήσεις")
+    else:
+        print(f"Μεγαλύτερη συχνότητα κλήσεων παρατηρήθηκε στις επαφές με τους αριθμούς: {int(max_emfanisi)} με {max_counter} κλήσεις αντίστοιχα")
+
+
+#def alphabetical():
+
 #Κύρια συνάρτηση ΄--Μενου Προγράμματος--
 def main():
     
@@ -208,7 +269,6 @@ def main():
 
         if choice == '1':
             add_new()
-        
         elif choice == '2':
             metavoli_epafis() 
         elif choice == '3':
@@ -217,20 +277,20 @@ def main():
             klisi_epafis()
         elif choice == '5':
             emfanisi()
-        else:
-            print("Μη έγκυρη επιλογή! Δοκιμάστε πάλι.") 
-        '''elif choice == '6':
-            
+        elif choice == '6':
+            search_max_kliseis()
         elif choice == '7':
-            
+            search_max_kliseis()
         elif choice == '8':
-            
+            search_max_duration()
         elif choice == '9':
-            exsodos()
             print("Το πρόγραμμα κλείνει")
             time.sleep(2)
-            break'''
-        
+            break
+        else:
+            print("Μη έγκυρη επιλογή! Δοκιμάστε πάλι.") 
 
-if __name__ == "__main__":
-    main()
+
+main()
+'''if __name__ == "__main__":
+    main()'''
