@@ -132,12 +132,13 @@ lista_pragmatopoimenwn=[]
 lista_xronwn_klisewn=[]
 def generate_duration_phonecall():
     min_duration=1
-    #Μεγιστος χρονος κλησης 1 ωρα
-    max_duration=60
+    #Μεγιστος χρονος κλησης 1 ωρα, θελουμε το input σε δευτερολεπτα
+    max_duration=3600
     duration=random.randint(min_duration,max_duration)
+    print (duration)
     #Μετατρεπουμε τον χρονο σε λεπτα και δευτερολεπτα
     minutes,seconds=divmod(duration,60)
-    final=(f"{minutes}:{seconds} sec")
+    final=(f"{minutes}:{seconds}")
     return final
 def klisi_epafis():
     with open("EpafesCsv.csv",'r',newline='',encoding='utf8') as epafes:
@@ -152,7 +153,7 @@ def klisi_epafis():
         k=random.choice(list(["Αναπάντητη", "Πραγματοποιημένη"]))
         xronos_klisis=0
         if k=="Αναπάντητη": 
-            xronos_klisis=0
+            xronos_klisis='0:0'
             count = sum(1 for k_ in k if k == "Αναπάντητη")
             lista_anapantitwn=[count]
         elif k=='Πραγματοποιημένη':
@@ -187,43 +188,51 @@ def emfanisi():
 
 
 def convert_time_to_seconds(time_str):
-    # Split the time string into minutes and seconds
-    minutes, seconds = time_str.split(':')
+    #Το πεδιο time: mm:ss το σπαμε σε δυο και το μετατρεπουμε σε ακεραιο
+    minutes_str, seconds_str= time_str.split(':')
+    minutes = int(minutes_str)
+    seconds = int(seconds_str)
     
-    # Convert to integers
-    minutes = int(minutes)
-    seconds = int(seconds)
-    
-    # Calculate total seconds
+    #Μτατρεπουμε σε συνολικα δευτερολεπτα
     total_seconds = (minutes * 60) + seconds
     return total_seconds
 def search_max_duration():
-    lista_katagrafwn=[]
-    sum=0
-    with open("ArxeioCsv.csv",'r',encoding='utf8') as arxeio:
+    lista_katagrafwn = []  # List to hold call records
+    with open("ArxeioCsv.csv", 'r', encoding='utf8') as arxeio:
+        reader = csv.reader(arxeio)
+        next(reader)  
         
-        reader=csv.reader(arxeio)
-        
-        next(reader)
         for row in reader:
+            # Ελεγχος αν ο αριθμος που βρισκει υπαρχει μεσα στο uniquenumberset που εχει οριστει πιο πανω
             if row[2] in uniquenumberset:
-                lista_katagrafwn.append((row[2],convert_time_to_seconds(row[4])))
-            lista_telephone=Counter(num for num, duration in lista_katagrafwn)  
-        #max_count=Counter(lista_telephone)
-    max_counter=max(lista_telephone.values(), default=0)
-    max_emfanisi=[num for num,freq in lista_telephone.items() if freq==max_counter]
-    print(lista_telephone,max_counter,max_emfanisi)
+                try:
+                    duration = convert_time_to_seconds(row[4])
+                    #Δημιουργια μιας λιστας με τα τηλεφωνα που εχουν γινει κλησεις και τις διαρκειες τους
+                    lista_katagrafwn.append((row[2], duration))
+                except ValueError:
+                    print(f"Error converting time for row: {row}")
+
+    #Δημιουργία λιστας για τον αριθμο εμφανισης των τηλεφωνων στις κλησεις 
+    lista_telephone = Counter(num for num, duration in lista_katagrafwn)
+    #Ευρεση μεγιστου αριθμου εμφανισης τηλεφωνου στις κλησεις  
+    max_counter = max(lista_telephone.values(), default=0)
+    #Ευρεση αριθμου/αριθμων με την μεγιστη εμφανιση στο αρχειο κλησεων 
+    max_emfanisi = [num for num, freq in lista_telephone.items() if freq == max_counter]
+      
     if max_counter == 0:
         print("Καμία κλήση δεν βρέθηκε")
         return
-    # Print the relevant details
-    total_duration = sum(int(duration) for num, duration in lista_katagrafwn if num in max_emfanisi)
-
+       
+    total_durations = {num: 0 for num in max_emfanisi}
+    for num, duration in lista_katagrafwn:
+        if num in max_emfanisi:
+            #Ευρεση συνολικης διαρκειας κλησεις για τους αριθμους που βρεθηκαν με μεγιστο αριθμο εμφανισης στο αρχειο κλησεων
+            total_durations[num] += duration  
     if len(max_emfanisi) == 1:
-        print(f"Μεγαλύτερη συχνότητα κλήσεων παρατηρήθηκε στην επαφή με αριθμό: {int(max_emfanisi[0])} με {max_counter} κλήσεις και συνολική διάρκεια: {total_duration}")
+        print(f"Μεγαλύτερη συχνότητα κλήσεων παρατηρήθηκε στην επαφή με αριθμό: {int(max_emfanisi[0])} με {max_counter} κλήσεις και συνολική διάρκεια {total_durations[max_emfanisi[0]]} δευτερολέπτων")
     else:
-        print(f"Μεγαλύτερη συχνότητα κλήσεων παρατηρήθηκε στις επαφές με τους αριθμούς: {', '.join(map(str, max_emfanisi))} με {max_counter} κλήσεις και συνολική διάρκεια: {total_duration}")
-
+        details = ", ".join(f"{num}: {total_durations[num]} δευτερολέπτων" for num in max_emfanisi)
+        print(f"Μεγαλύτερη συχνότητα κλήσεων παρατηρήθηκε στις επαφές με τους αριθμούς: {', '.join(map(str, max_emfanisi))} με {max_counter} κλήσεις έκαστος και Συνολικές διάρκειες \n{details}")
 
 from collections import Counter
 def search_max_kliseis():
@@ -247,7 +256,53 @@ def search_max_kliseis():
         print(f"Μεγαλύτερη συχνότητα κλήσεων παρατηρήθηκε στις επαφές με τους αριθμούς: {int(max_emfanisi)} με {max_counter} κλήσεις αντίστοιχα")
 
 
-#def alphabetical():
+def alphabetical():
+    kontakts_info = {}
+    
+    # Read the call records to gather information on calls and durations
+    with open("ArxeioCsv.csv", 'r', encoding='utf8') as arxeio:
+        reader = csv.reader(arxeio)
+        next(reader)  
+        
+        for row in reader:
+            telephone = row[2]  # Contact number
+            call_type = row[3]  # Call description (not used for this task)
+            duration_str = row[4]  # Duration
+            
+            #Μετατροπη χρονου κλησης σε δευτερολεπτα
+            duration_seconds = convert_time_to_seconds(duration_str)
+            
+            # Πληροφορια για καθε τηλεφωνο
+            if telephone in kontakts_info:
+                kontakts_info[telephone]['calls'] += 1
+                kontakts_info[telephone]['total_duration'] += duration_seconds
+            else:
+                kontakts_info[telephone] = {'calls': 1, 'total_duration': duration_seconds}
+    contacts = []
+    with open("EpafesCsv.csv", 'r', encoding='utf8') as epafes:
+        reader = csv.reader(epafes)
+        next(reader)  
+        
+        for row in reader:
+            name = row[0]  # Όνομα
+            surname = row[1]  #Επώνυμο
+            telephone = row[2]  #Τηλέφωνο
+            contacts.append((name, surname, telephone))
+
+    # Sorting με βαση το ονομα
+    contacts.sort()
+
+    print("\n--- Αλφαβητική Λίστα Επαφών ---")
+    for name, surname, telephone in contacts:
+        if telephone in kontakts_info:
+            count_calls = kontakts_info[telephone]['calls']
+            total_duration = kontakts_info[telephone]['total_duration']
+            # Μετατροπη χρονου κλησης ξανα σε format mm:ss 
+            minutes, seconds = divmod(total_duration, 60)
+            duration_display = f"{minutes}:{seconds:02}"
+            print(f"{name} {surname}, Τηλέφωνο: {telephone}, Πλήθος Κλήσεων: {count_calls}, Συνολική Διάρκεια: {duration_display}")
+        else:
+            print(f"{name} {surname}, Τηλέφωνο: {telephone}, Πλήθος Κλήσεων: 0, Συνολική Διάρκεια: 0:00")
 
 #Κύρια συνάρτηση ΄--Μενου Προγράμματος--
 def main():
@@ -278,7 +333,7 @@ def main():
         elif choice == '5':
             emfanisi()
         elif choice == '6':
-            search_max_kliseis()
+            alphabetical()
         elif choice == '7':
             search_max_kliseis()
         elif choice == '8':
@@ -292,5 +347,3 @@ def main():
 
 
 main()
-'''if __name__ == "__main__":
-    main()'''

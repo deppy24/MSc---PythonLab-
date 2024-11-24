@@ -27,3 +27,24 @@ def randomDice():
     k=random.radint(1,6)
     print (k)
     return
+
+lista_katagrafwn=[]
+    sum=0
+    with open("ArxeioCsv.csv",'r',encoding='utf8') as arxeio:
+        
+        reader=csv.reader(arxeio)
+        
+        next(reader)
+        for row in reader:
+            if row[2] in uniquenumberset:
+                #time_str=row[4]
+                lista_katagrafwn.append((row[2],convert_time_to_seconds(row[4])))
+            lista_telephone=Counter(num for num, xronos_klisis in lista_katagrafwn)  
+        #max_count=Counter(lista_telephone)
+    max_counter=max(lista_telephone.values(), default=0)
+    max_emfanisi=[num for num,freq in lista_telephone.items() if freq==max_counter]
+    print(lista_telephone,max_counter,max_emfanisi)
+    if max_counter == 0:
+        print("Καμία κλήση δεν βρέθηκε")
+        return
+
