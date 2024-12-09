@@ -1,0 +1,35 @@
+from tkinter import *
+from tkinter import messagebox
+class MyForm:
+    def __init__ (self) :
+        self.root = Tk()
+        self.root.title('Enter personal data')
+        self.l1 = Label(self . root , text= 'First Name')
+        self.l1.grid(row=0)
+        self.l2 = Label(self.root, text='Last Name')
+        self.l2.grid(row=1)
+        self.l3=Label(self.root, text='Email')
+        self.l3.grid(row=2, sticky=W)
+        self.fname = Entry(self.root)
+        self.lname = Entry(self.root)
+        self.email = Entry(self.root)
+        self.fname.grid(row=0, column=1, columnspan=2)
+        self.lname.grid(row=1, column=1, columnspan=2)
+        self.email.grid(row=2, column=1, columnspan=2)
+        self.show = Button(self.root, text='Submit',command=self.thanx)
+        self.quit = Button(self.root, text=' Quit ',command=self.root.quit)
+        self.show.grid(row=3, column=1, pady=4)
+        self.quit.grid(row=3, column=2, sticky=W, pady=4)
+        self.root.mainloop()
+
+    def thanx(self):
+        messagebox.showinfo('Data Submitted', 'Thank you')
+        self.fname.delete(0, END)
+        self.lname.delete(0, END)
+        self.email.delete(0, END)
+        self.fname.focus_set()
+
+if __name__=='__main__':
+    app = MyForm()
+
+
