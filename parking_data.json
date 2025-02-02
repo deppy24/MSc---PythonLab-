@@ -1,0 +1,218 @@
+{
+    "spots": [
+        {
+            "number": 1,
+            "reserved": true,
+            "occupied": true,
+            "long_term": true,
+            "license_plate": "KLH-4852",
+            "driver_name": "AKIS",
+            "entry_time": "2025-02-02T00:00:00",
+            "rental_end": "2025-03-02T00:00:00"
+        },
+        {
+            "number": 2,
+            "reserved": true,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 3,
+            "reserved": true,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 4,
+            "reserved": true,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 5,
+            "reserved": true,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 6,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 7,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 8,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 9,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 10,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 11,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 12,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 13,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 14,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 15,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 16,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 17,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 18,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 19,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        },
+        {
+            "number": 20,
+            "reserved": false,
+            "occupied": false,
+            "long_term": false,
+            "license_plate": null,
+            "driver_name": null,
+            "entry_time": null,
+            "rental_end": null
+        }
+    ],
+    "revenue_hourly": 0.0,
+    "revenue_longterm": 50.0,
+    "transactions": [
+        {
+            "type": "εισερχόμενο-ενοικίαση",
+            "plate": "KLH-4852",
+            "driver": "AKIS",
+            "spot": 1,
+            "start": "02/02/2025",
+            "end": "02/03/2025",
+            "amount": 50,
+            "message": "Εισερχόμενο μακροχρόνια ενοικίαση: άμεση χρέωση 50€."
+        }
+    ]
+}
